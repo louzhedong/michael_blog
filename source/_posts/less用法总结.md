@@ -4,7 +4,7 @@ date: 2017-07-19 10:43:28
 tags: "less"
 ---
 
-## 什么是less
+## 什么是less 
 
 less是一门预处理语言，扩展了css语言，增加了变量、Mixin、函数等特性，使css更易维护和扩展。less完全兼容css语法，可以完全使用css语法。
 
@@ -467,5 +467,39 @@ div {
   	padding: @average;    // use its "return" value
 }
 ```
+
+#### mixin用法——when
+
+less中没有if/else语句（scss中有），只有when。通过when，可以使一个mixin匹配多种情况
+
+``` less
+.mixin (@a) when (lightness(@a) >= 50%) {
+  	background-color: black;
+}
+.mixin (@a) when (lightness(@a) < 50%) {
+  	background-color: white;
+}
+.mixin (@a) {
+  	color: @a;
+}
+
+.class1 { .mixin(#ddd) }
+.class2 { .mixin(#555) }
+```
+
+将被编译为
+
+``` css
+.class1 {
+  	background-color: black;
+  	color: #ddd;
+}
+.class2 {
+  	background-color: white;
+  	color: #555;
+}
+
+```
+
 
 从上述的一些例子中，mixin可以像函数那样使用，利用这个特性，可以来简化浏览器兼容的代码。某些比较新的属性，比如flex，border-radius等，在不同浏览器中需要使用不同的前缀来进行兼容。因此可以将这些细节影藏在mixin中，在某些类中调用这些mixin，并将需要的参数传递进行，可以得到带有不同前缀的css代码，可以极大地简化代码量。
